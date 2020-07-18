@@ -20,7 +20,7 @@ def refresh_token(payload: BearerStructure):
     :param payload:
     :return:
     """
-    # TODO: fix all
+    # TODO: fix refresh token decode
     bearer_info = Auth().validate_token(token=payload.refresh_token, is_refresh=True)
     return bearer_info
 
