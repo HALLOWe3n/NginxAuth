@@ -38,8 +38,7 @@ def login_user(request: Request, username: str = Form('username'), password: str
     bearer_tokens = auth.create_tokens(payload=user_payload)
     redirect_uri = request.headers['referer'].split('?url=')[1]
 
-    return RedirectResponse(redirect_uri, status_code=302,
-                            headers={'Authorization': f'Bearer {bearer_tokens["access_token"]}'})
+    return RedirectResponse(redirect_uri, status_code=302, headers=bearer_tokens)
 
 
 @router.get('/example')
