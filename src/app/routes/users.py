@@ -18,7 +18,6 @@ def refresh_token(payload: BearerStructure):
     :param payload:
     :return:
     """
-    # TODO: fix refresh token decode
     bearer_info = Auth().validate_token(token=payload.refresh_token, is_refresh=True)
     return bearer_info
 
@@ -42,7 +41,7 @@ def login_user(username: str = Form('username'), password: str = Form('password'
 
 
 @router.get('/example')
-def example_redirect(request: Request, user: User = Depends(Auth().get_user)):
+def example_redirect(user: User = Depends(Auth().get_user)):
     return {'message': 'success'}
 
 
