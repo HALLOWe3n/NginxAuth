@@ -13,7 +13,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
 class Auth:
-
     def __init__(self):
         self.__algorithm = settings.ALGORITHM
         self.__secret_key = settings.SECRET_KEY
@@ -29,11 +28,11 @@ class Auth:
     def check_user(self, username: str, password: str):
         user = user_fake_db.get(username, None)
         if not user:
-            raise HTTPException(status_code=400, detail="Incorrect username or password")
+            raise HTTPException(status_code=401, detail="Incorrect username or password")
         if user['password'] == self.fake_hash_password(password=password):
             return user
         else:
-            raise HTTPException(status_code=400, detail="Incorrect username or password")
+            raise HTTPException(status_code=401, detail="Incorrect username or password")
 
     def get_user(self, token: str = Depends(oauth2_scheme)) -> User:
         """
@@ -53,10 +52,10 @@ class Auth:
         """
 
         payload.update({'exp': datetime.utcnow() + self.__expired_time})
-        access_token = jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm)
+        access_token = jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm).decode('utf-8')
 
         payload.update({'exp': datetime.utcnow() + self.__expired_time_refresh})
-        refresh_token = jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm)
+        refresh_token = jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm).decode('utf-8')
 
         bearer_tokens = {
             'access_token': access_token,
@@ -99,4 +98,4 @@ class Auth:
         _user_in_db = user_fake_db.get(username, None)
         if _user_in_db:
             return User(username=_user_in_db['username'], password=_user_in_db['password'])
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
+        raise HTTPException(status_code=401, detail="Incorrect username or password")
