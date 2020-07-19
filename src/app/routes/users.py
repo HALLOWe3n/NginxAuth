@@ -32,11 +32,13 @@ def login_template(request: Request):
 
 
 @router.post('/just/login', name='login_user')
-def login_user(username: str = Form('username'), password: str = Form('password')):
+def login_user(request: Request, username: str = Form('username'), password: str = Form('password')):
     auth = Auth()
     user_payload = auth.check_user(username=username, password=password)
     bearer_tokens = auth.create_tokens(payload=user_payload)
-    return RedirectResponse('http://localhost:8080/example', status_code=302,
+    redirect_uri = request.headers['referer'].split('?url=')[1]
+
+    return RedirectResponse(redirect_uri, status_code=302,
                             headers={'Authorization': f'Bearer {bearer_tokens["access_token"]}'})
 
 
