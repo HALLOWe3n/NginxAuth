@@ -1,14 +1,16 @@
 import typing
 
 from fastapi.templating import Jinja2Templates
-from fastapi import APIRouter, Depends, Request, Form
-from fastapi.responses import RedirectResponse
+from fastapi import APIRouter, Depends, Request, Form, HTTPException
 
-from src.app.models.auth import Auth
-from src.app.models.structs import User, BearerStructure
+from starlette.status import HTTP_303_SEE_OTHER
+from starlette.responses import RedirectResponse
+
+from ..models.auth import Auth
+from ..models.structs import User, BearerStructure
 
 router = APIRouter()
-templates = Jinja2Templates(directory='src/templates')
+templates = Jinja2Templates(directory='/templates')
 
 
 @router.post('/refresh')
@@ -32,13 +34,24 @@ def login_template(request: Request):
 
 
 @router.post('/just/login', name='login_user')
-def login_user(request: Request, username: str = Form('username'), password: str = Form('password')):
+def login_user(
+        username: str = Form('username'),
+        password: str = Form('password'),
+        redirect_uri: str = Form('redirect_uri'),
+):
+    if redirect_uri == 'None':
+        raise HTTPException(status_code=400, detail='None have redirect uri')
     auth = Auth()
     user_payload = auth.check_user(username=username, password=password)
     bearer_tokens = auth.create_tokens(payload=user_payload)
-    redirect_uri = request.headers['referer'].split('?url=')[1]
 
-    return RedirectResponse(redirect_uri, status_code=302, headers=bearer_tokens)
+    authorization_headers = {'Authorization': f'Bearer {bearer_tokens["access_token"]}'}
+
+    return RedirectResponse(
+        redirect_uri,
+        status_code=HTTP_303_SEE_OTHER,
+        headers=authorization_headers
+    )
 
 
 @router.get('/example')

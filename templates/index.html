@@ -30,7 +30,7 @@
 						Member Login
 					</span>
 
-                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                <div class="wrap-input100 validate-input">
                     <input class="input100" type="text" name="username" placeholder="Username">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
@@ -45,6 +45,7 @@
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
                 </div>
+                <input type="hidden" id="redirect_uri" name="redirect_uri">
 
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn">
@@ -58,21 +59,32 @@
 
 
 <!--===============================================================================================-->
-<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ url_for('static', path='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
 <!--===============================================================================================-->
-<script src="vendor/bootstrap/js/popper.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', path='vendor/bootstrap/js/popper.js') }}"></script>
+<script src="{{ url_for('static', path='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <!--===============================================================================================-->
-<script src="vendor/select2/select2.min.js"></script>
+<script src="{{ url_for('static', path='vendor/select2/select2.min.js') }}"></script>
 <!--===============================================================================================-->
-<script src="vendor/tilt/tilt.jquery.min.js"></script>
+<script src="{{ url_for('static', path='vendor/tilt/tilt.jquery.min.js') }}"></script>
 <script>
     $('.js-tilt').tilt({
         scale: 1.1
     })
+    var urlParams = new URLSearchParams(window.location.search);
+    redirect_uri = urlParams.get('url')
+    if (!redirect_uri) {
+        $('#redirect_uri').val('None')
+    } else {
+        $('#redirect_uri').val(redirect_uri)
+    }
+
+
+
+
 </script>
 <!--===============================================================================================-->
-<script src="js/main.js"></script>
+<script src="{{ url_for('static', path='js/main.js') }}"></script>
 
 </body>
 </html>

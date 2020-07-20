@@ -5,9 +5,9 @@ from datetime import datetime, timedelta
 from fastapi import HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 
-from src.app.core import settings
-from src.app.models.structs import User
-from src.app.models.database import user_fake_db
+from ..core import settings
+from ..models.structs import User
+from ..models.database import user_fake_db
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 

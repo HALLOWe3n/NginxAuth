@@ -1,0 +1,24 @@
+version: "3.5"
+
+services:
+  authentication_service:
+    build: .
+    environment:
+      - ALGORITHM=HS256
+      - SECRET_KEY=kjasgdtb784oq3i7yiwtur7wio3uyrq348itoyi3w7yrioq347wyr8ti34uyfhksdjhfg
+      - SECRET_KEY_REFRESH=gfhjdskhfyu43it8iyotiy7i3qo487btdgsajki843qryu3oiw7rutwryw743qoiry7w3
+      - EXPIRED_TIME_ACCESS_TOKEN=60
+      - EXPIRED_TIME_REFRESH_TOKEN=30
+    command: uvicorn app.main:api --reload --workers 1 --host 0.0.0.0 --port 8000
+    volumes:
+      - ./static:/static
+    ports:
+    - "8000:8000"
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./static:/static
+    ports:
+      - "80:80"
