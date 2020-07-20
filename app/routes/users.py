@@ -45,12 +45,10 @@ def login_user(
     user_payload = auth.check_user(username=username, password=password)
     bearer_tokens = auth.create_tokens(payload=user_payload)
 
-    authorization_headers = {'Authorization': f'Bearer {bearer_tokens["access_token"]}'}
-
     return RedirectResponse(
         redirect_uri,
         status_code=HTTP_303_SEE_OTHER,
-        headers=authorization_headers
+        headers=bearer_tokens
     )
 
 
