@@ -48,12 +48,17 @@ def login_user(
     return RedirectResponse(
         redirect_uri,
         status_code=HTTP_303_SEE_OTHER,
-        headers=bearer_tokens
+        headers={'authorization': bearer_tokens['access_token']}
     )
 
 
 @router.get('/example')
 def example_redirect(user: User = Depends(Auth().get_user)):
+    return {'message': 'success'}
+
+
+@router.get('/new/example')
+def new_example_redirect(user: User = Depends(Auth().get_user)):
     return {'message': 'success'}
 
 
