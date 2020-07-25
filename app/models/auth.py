@@ -55,7 +55,7 @@ class Auth:
         access_token = jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm).decode('utf-8')
 
         payload.update({'exp': datetime.utcnow() + self.__expired_time_refresh})
-        refresh_token = jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm).decode('utf-8')
+        refresh_token = jwt.encode(payload, self.__secret_key_refresh, algorithm=self.__algorithm).decode('utf-8')
 
         bearer_tokens = {
             'access_token': access_token,
@@ -80,8 +80,8 @@ class Auth:
             user_data = self.__create_user_struct(payload=payload)
         except jwt.ExpiredSignature:
             raise HTTPException(status_code=401, detail='Token Expired!')
-        except (jwt.DecodeError, jwt.InvalidSignatureError):
-            raise HTTPException(status_code=401, detail='Invalid token!')
+        # except (jwt.DecodeError, jwt.InvalidSignatureError):
+        #     raise HTTPException(status_code=401, detail='Invalid token!')
 
         return self.create_tokens(payload) if is_refresh else user_data
 

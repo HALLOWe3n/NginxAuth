@@ -13,13 +13,14 @@ router = APIRouter()
 templates = Jinja2Templates(directory='/templates')
 
 
-@router.post('/refresh')
+@router.post('/refresh/token')
 def refresh_token(payload: BearerStructure):
     """
     \f
     :param payload:
     :return:
     """
+    print(payload.refresh_token)
     bearer_info = Auth().validate_token(token=payload.refresh_token, is_refresh=True)
     return bearer_info
 
@@ -44,6 +45,8 @@ def login_user(
     auth = Auth()
     user_payload = auth.check_user(username=username, password=password)
     bearer_tokens = auth.create_tokens(payload=user_payload)
+
+    print(bearer_tokens)
 
     return RedirectResponse(
         redirect_uri,
