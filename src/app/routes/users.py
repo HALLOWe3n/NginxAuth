@@ -46,13 +46,15 @@ def login_user(
     user_payload = auth.check_user(username=username, password=password)
     bearer_tokens = auth.create_tokens(payload=user_payload)
 
-    print(bearer_tokens)
-
-    return RedirectResponse(
+    response = RedirectResponse(
         redirect_uri,
         status_code=HTTP_303_SEE_OTHER,
-        headers={'authorization': bearer_tokens['access_token']}
     )
+
+    response.set_cookie(key='access_token', values=bearer_tokens['access_token'])
+    response.set_cookie(key='refresh_token', values=bearer_tokens['refresh_token'])
+
+    return response
 
 
 @router.get('/example')
