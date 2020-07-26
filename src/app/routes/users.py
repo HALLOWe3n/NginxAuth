@@ -51,8 +51,8 @@ def login_user(
         status_code=HTTP_303_SEE_OTHER,
     )
 
-    response.set_cookie(key='access_token', values=bearer_tokens['access_token'])
-    response.set_cookie(key='refresh_token', values=bearer_tokens['refresh_token'])
+    response.set_cookie(key='access_token', value=bearer_tokens['access_token'])
+    response.set_cookie(key='refresh_token', value=bearer_tokens['refresh_token'])
 
     return response
 
