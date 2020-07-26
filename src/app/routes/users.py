@@ -1,10 +1,10 @@
 import typing
 
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from fastapi import APIRouter, Depends, Request, Form, HTTPException
 
 from starlette.status import HTTP_303_SEE_OTHER
-from starlette.responses import RedirectResponse
 
 from ..models.auth import Auth
 from ..models.structs import User, BearerStructure
