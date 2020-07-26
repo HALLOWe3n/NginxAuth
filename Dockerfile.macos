@@ -14,6 +14,6 @@ RUN set -eux \
     && pip install -r requirements.txt \
     && rm -rf /root/.cache/pip
 
-COPY ./app /app/app
-COPY ./static /static
-COPY ./templates /templates
+COPY src/app /app/app
+COPY src/static /static
+COPY src/templates /templates

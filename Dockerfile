@@ -2,6 +2,6 @@ FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-COPY ./app /app/app
-COPY ./static /static
-COPY ./templates /templates
+COPY src/app /app/app
+COPY src/static /static
+COPY src/templates /templates

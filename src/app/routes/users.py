@@ -10,7 +10,7 @@ from ..models.auth import Auth
 from ..models.structs import User, BearerStructure
 
 router = APIRouter()
-templates = Jinja2Templates(directory='/templates')
+templates = Jinja2Templates(directory='src/templates')
 
 
 @router.post('/refresh/token')
