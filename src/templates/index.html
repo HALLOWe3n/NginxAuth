@@ -24,8 +24,7 @@
             <div class="login100-pic js-tilt" data-tilt>
                 <img src="{{ url_for('static', path='images/img-01.png') }}" alt="IMG">
             </div>
-
-            <form class="login100-form validate-form" method="post" action="{{ url_for('login_user') }}">
+            <form class="login100-form validate-form" method="post" id="ajax_form" action="">
 					<span class="login100-form-title">
 						Member Login
 					</span>
@@ -48,9 +47,7 @@
                 <input type="hidden" id="redirect_uri" name="redirect_uri">
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn">
-                        Login
-                    </button>
+                    <button class="login100-form-btn" id="ajax_btn_click">Login</button>
                 </div>
             </form>
         </div>
@@ -60,6 +57,8 @@
 
 <!--===============================================================================================-->
 <script src="{{ url_for('static', path='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
 <!--===============================================================================================-->
 <script src="{{ url_for('static', path='vendor/bootstrap/js/popper.js') }}"></script>
 <script src="{{ url_for('static', path='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -79,8 +78,40 @@
         $('#redirect_uri').val(redirect_uri)
     }
 
+    function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
 
+    if (url.indexOf("//") > -1) {
+        hostname = url.split('/')[2];
+    }
+    else {
+        hostname = url.split('/')[0];
+    }
 
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}
+
+   $(document).ready(function(){
+    $("form#ajax_form").submit(function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: "{{ url_for('login_user') }}",
+            data: $('#ajax_form').serialize(),
+            success: function(data){
+                $.cookie('access_token', data.access_token, {"domain": "localhost:8080"})
+                window.location.replace("http://localhost:8080/example")
+            }
+            });
+        });
+    });
 
 </script>
 <!--===============================================================================================-->
