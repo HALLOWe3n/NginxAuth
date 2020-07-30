@@ -106,7 +106,7 @@
             url: "{{ url_for('login_user') }}",
             data: $('#ajax_form').serialize(),
             success: function(data){
-                $.cookie('access_token', data.access_token, {"domain": "localhost:8080"})
+                $.cookie('access_token', data.access_token)
                 window.location.replace("http://localhost:8080/example")
             }
             });
