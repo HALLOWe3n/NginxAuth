@@ -106,8 +106,8 @@
             url: "{{ url_for('login_user') }}",
             data: $('#ajax_form').serialize(),
             success: function(data){
-                $.cookie('access_token', data.access_token)
-                window.location.replace("http://localhost:8080/example")
+                $.cookie('access_token', data.access_token, {"domain": "33290132ea93.ngrok.io"})
+                window.location.replace("http://33290132ea93.ngrok.io/example")
             }
             });
         });
