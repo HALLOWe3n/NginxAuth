@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="{{ url_for('static', path='css/main.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='css/util.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='images/icons/favicon.ico') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='vendor/animate/animate.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='vendor/css-hamburgers/hamburgers.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='vendor/select2/select2.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='vendor/select2/select2.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='vendor/select2/select2.min.css') }}" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/util.css" rel="stylesheet">
+    <link href="/static/images/icons/favicon.ico" rel="stylesheet">
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/vendor/animate/animate.css" rel="stylesheet">
+    <link href="/static/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet">
+    <link href="/static/vendor/select2/select2.min.css" rel="stylesheet">
+    <link href="/static/vendor/select2/select2.min.css" rel="stylesheet">
+    <link href="/static/vendor/select2/select2.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -22,7 +23,7 @@
     <div class="container-login100">
         <div class="wrap-login100">
             <div class="login100-pic js-tilt" data-tilt>
-                <img src="{{ url_for('static', path='images/img-01.png') }}" alt="IMG">
+                <img src="/static/images/img-01.png" alt="IMG">
             </div>
             <form class="login100-form validate-form" method="post" id="ajax_form" action="">
 					<span class="login100-form-title">
@@ -56,18 +57,18 @@
 
 
 <!--===============================================================================================-->
-<script src="{{ url_for('static', path='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
 <!--===============================================================================================-->
-<script src="{{ url_for('static', path='vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ url_for('static', path='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="/static/vendor/bootstrap/js/popper.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-<script src="{{ url_for('static', path='vendor/select2/select2.min.js') }}"></script>
+<script src="/static/vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-<script src="{{ url_for('static', path='vendor/tilt/tilt.jquery.min.js') }}"></script>
+<script src="/static/vendor/tilt/tilt.jquery.min.js"></script>
 <script>
-    $('.js-tilt').tilt({
+    $('.js-tilt') .tilt({
         scale: 1.1
     })
     var urlParams = new URLSearchParams(window.location.search);
@@ -103,19 +104,20 @@
 
         $.ajax({
             type: "POST",
-            url: "{{ url_for('login_user') }}",
+            url: "/just/login",
             data: $('#ajax_form').serialize(),
             success: function(data){
-                $.cookie('access_token', data.access_token, {"domain": "33290132ea93.ngrok.io"})
-                window.location.replace("http://33290132ea93.ngrok.io/example")
+                $.cookie('access_token', data.access_token)
+                window.location.replace(redirect_uri)
             }
+
             });
         });
     });
 
 </script>
 <!--===============================================================================================-->
-<script src="{{ url_for('static', path='js/main.js') }}"></script>
+<script src="/static/js/main.js"></script>
 
 </body>
 </html>
